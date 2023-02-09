@@ -39,6 +39,7 @@ export async function appRoutes(app: FastifyInstance) {
   })
 
   app.get('/day', async (req) => {
+
     const getDayParams = z.object({
       date: z.coerce.date()
     })
@@ -48,7 +49,7 @@ export async function appRoutes(app: FastifyInstance) {
     const parsedDate = dayjs(date).startOf('day')
     const weekDay = parsedDate.get('day')
 
-    const allHabitsDay = await prisma.habit.findMany({
+    const possibleHabits = await prisma.habit.findMany({
       where: {
         created_at: {
           lte: date,
@@ -75,7 +76,7 @@ export async function appRoutes(app: FastifyInstance) {
     })
 
     return {
-      allHabitsDay, completedHabits
+      possibleHabits, completedHabits
     }
   })
 
@@ -110,7 +111,7 @@ export async function appRoutes(app: FastifyInstance) {
 
     if (dayHabit) {
       await prisma.dayHabit.delete({
-        where:{
+        where: {
           id: dayHabit.id,
         }
       })
@@ -124,7 +125,7 @@ export async function appRoutes(app: FastifyInstance) {
     }
   })
 
-  app.get('/summary', async() => {
+  app.get('/summary', async () => {
 
     const summary = await prisma.$queryRaw`
       

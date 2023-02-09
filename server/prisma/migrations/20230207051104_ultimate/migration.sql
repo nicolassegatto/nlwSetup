@@ -1,4 +1,11 @@
 -- CreateTable
+CREATE TABLE "habits" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "habit_week_days" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "habit_id" TEXT NOT NULL,
